@@ -15,11 +15,11 @@ class Posts < Application
         end
         
         def index_by_date(created_year, created_month = nil, created_day = nil)
-                created_month = '__' if created_month == nil
-                created_day   = '__' if created_day   == nil
+                created_month = '01' if created_month == nil
+                created_day   = '01' if created_day   == nil
                 
                 date = "#{created_year}-#{created_month}-#{created_day}%"
-                @count, @posts = Post.paginated(:created_at.like => date, :order => [:created_at.desc], :page => params[:page] ? params[:page].to_i : 1, :per_page => PAGE_SIZE)
+                @count, @posts = Post.paginated(:created_at.gte => date, :order => [:created_at.desc], :page => params[:page] ? params[:page].to_i : 1, :per_page => PAGE_SIZE)
                 
                 display @posts, :index
         end
